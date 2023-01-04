@@ -73,3 +73,24 @@ li = LinkedList()
 li.add(1)
 li.add(5)
 li.add(3)
+
+
+class Link:
+
+    empty = ()
+
+    def __init__(self, first, rest=empty):
+        self.first = first
+        self.rest = rest
+
+    def __getitem__(self, item):
+        if item == 0:
+            return self.first
+        else:
+            return self.rest[item - 1]
+
+    def __len__(self):
+        return 1 + len(self.rest)
+
+    def __repr__(self):
+        return f"Link({self.first}{', ' if repr(self.rest) else ''})"

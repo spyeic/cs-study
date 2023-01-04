@@ -1,6 +1,12 @@
 import time
 
 
+def fib(n):
+    if n == 0 or n == 1:
+        return n
+    return fib(n - 1) + fib(n - 2)
+
+
 def memo(f):
     cache = {}
 
@@ -13,28 +19,30 @@ def memo(f):
     return from_cache
 
 
-def timer(f):
-    def new_fun(n):
-        start = time.time()
-        r = f(n)
-        print(f"takes {(time.time() - start) * 1000} ns to run function {f.__name__}")
-        return r
+def count(fn):
+    """
+    Without memoization:
+    >>> fib = count(fib)
+    >>> fib(20)
+    6765
+    >>> fib.count
+    21891
 
-    return new_fun
+    With memoization:
+    >>> fib = memo(fib)
+    >>> fib = count(fib)
+    >>> fib(20)
+    6765
+    >>> fib.count
+    39
+    :param fn:
+    :return:
+    """
+    def counted(n):
+        counted.count += 1
+        return fn(n)
+    counted.count = 0
+    return counted
 
 
-def fib_raw(n):
-    if n == 0 or n == 1:
-        return n
-    return fib_raw(n - 1) + fib_raw(n - 2)
 
-
-@timer
-def fib(n):
-    return fib_raw(n)
-
-
-@timer
-@memo
-def new_fib(n):
-    return fib_raw(n)
